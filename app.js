@@ -8,6 +8,11 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var socketIO = require('socket.io'),
+    session = require('express-session'),
+    fs = require("fs"),
+    async = require('async');
+
 var app = express();
 
 // view engine setup
@@ -32,28 +37,54 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handlers
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
+app.use(session({
+  secret: "Hello World",
+  resave: false,
+  saveUninitialized: true,
+  cookie :{
+    maxAge: 1000 * 86400
+  }
+}));
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
+app.use( express.static( __dirname + '/public' ) );
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
+var server_port =  3000;
+var server_ip_address = '127.0.0.1';
+
+var server = app.listen( server_port, server_ip_address, function () {
+  var host = server.address().address,
+      port = server.address().port;
+});
+
+var io = socketIO(server);
+
+currentRooms = {};
+currentPrivateRoom = {};
+currentUser = {}
+
+
+
+
+app.use(function (req, res) {
+  res.status(404);
+  res.send("Not Found");
+});
+
+io.on('connection', function( socket ) {
+  console.log("connected");
+  socket.on("join", function(data) {
+    console.log(data);
+    socket.join(data.room);
+    socket.broadcast.to(data.room).emit("newClient", data.username);
   });
+
+  socket.on("exit", function(data) {
+    socket.broadcast.to(data.room).emit("exitClient", data.username);
+  });
+
 });
 
 
