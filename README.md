@@ -9,4 +9,4 @@ Download nodejs from the https://nodejs.org/en/
 
 then run "sudo npm install npm -g"
 
-under the project folder run "npm install"
+under the project folder run "sudo npm install"
