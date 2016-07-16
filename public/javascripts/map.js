@@ -123,7 +123,7 @@ map.on('load', function(){
         if (toUser != undefined && toUser != "WalkChat") {
             socket.emit('getgeomsg', {username: toUser});          
         }
-    });
+    }, 1000);
 
     addMoment([-122.0738, 37.422], "Hi~", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAlJAAAAJGEwNmM5MzIzLTk0NWEtNDBjZS04ODliLTRlMWUyODQ1OWNjZA.jpg");
 
@@ -154,7 +154,7 @@ map.on('load', function(){
         map.getSource('toUser').setData(
             {
                 "type": "Point",
-                "coordinates": data
+                "coordinates": [data.longitude + 0.2, data.latitude + 0.2]
             }
         );  
     });
