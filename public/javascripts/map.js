@@ -14,7 +14,13 @@ function addMoment(pos, desc, image){
         .addTo(map);
 }
 
-function sendSocket()
+function getUsername(){
+    return $('#username')[0].innerHTML
+}
+
+function sendSocket(username, pos){
+
+}
 
 function fitIntoBounds(pos){
     bounds = map.getBounds().toArray();

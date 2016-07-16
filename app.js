@@ -171,7 +171,7 @@ io.on('connection', function( socket ) {
    */
   socket.on("sendgeomsg", function(data) {
     console.log(data.username + " update geo message to: " + data.geomsg);
-    currentUsers[data.username].geolocation = data.deomsg;
+    currentUsers[data.username].geolocation = data.geomsg;
   });
 
   /**
