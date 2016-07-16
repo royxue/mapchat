@@ -114,7 +114,7 @@ io.on('connection', function( socket ) {
     user.username = data.username;
     user.geolocation = data.geolocation;
     currentUser[data.username] = user;
-    concole.log(data.username + " signed up at" + data.geolocation);
+    console.log(data.username + " signed up at" + data.geolocation);
     socket.broadcast.emit("signup", "successful");
   });
 
@@ -139,7 +139,7 @@ io.on('connection', function( socket ) {
    * }
    */
   socket.on("sendmsg", function(data) {
-    concole.log(data.username + " send message: " + data.msg);
+    console.log(data.username + " send message: " + data.msg);
     socket.broadcast.to(data.room).emit("sendmsg", data);
   });
 
@@ -151,16 +151,19 @@ io.on('connection', function( socket ) {
    * }
    */
   socket.on("sendgeomsg", function(data) {
-    concole.log(data.username + " update geo message to: " + data.geomsg);
+    console.log(data.username + " update geo message to: " + data.geomsg);
     currentUsers[data.username].geolocation = data.deomsg;
   });
 
   /**
    * data format:
-   *
+   * {
+   *    username:
+   * }
    */
   socket.on("getgeomsg", function(data) {
-    console.log(data.username + "'s location is: " + )
+    console.log(data.username + "'s location is: " + currentUsers[data.username].geolocation);
+    socket.broadcast.emit("getgeomsg", currentUsers[data.username].geolocation);
   });
 
 });
