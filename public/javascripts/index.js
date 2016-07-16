@@ -6,9 +6,8 @@
             $(this).removeClass("btn-info").addClass("btn-success");
             if ($('.signup-area').css("display") === "none" &&
                 $('.signin-area').css("display") === "none") {
-                $('.signin-area').show({
-                    easing: "easeOutCubic"
-                });
+                $('.signin-area').show();
+                $(".button-bottom").animate({bottom : 0}, "normal")
             } else {
                 $('.signup-area, .signin-area').hide();
                 $('.signin-area').show();
@@ -19,9 +18,8 @@
             $(this).removeClass("btn-info").addClass("btn-success");
             if ($('.signup-area').css("display") === "none" &&
                 $('.signin-area').css("display") === "none") {
-                $('.signup-area').show({
-                    easing: "easeOutCubic"
-                });
+                $('.signup-area').show();
+                $(".button-bottom").animate({bottom : 0}, "slow")
             } else {
                 $('.signup-area, .signin-area').hide();
                 $('.signup-area').show();
