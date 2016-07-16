@@ -4,13 +4,15 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', type='text/css', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.css')       
+    script(src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.js')
+
   body
     block content
-
-
-
 
   script(src="/socket.io/socket.io.js")
   script(src='/javascripts/jquery.min.js')
   script(src='/javascripts/bootstrap.min.js')
   script(src='/javascripts/chat.js')
+  script(src='/javascripts/map.js')
+  
