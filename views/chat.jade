@@ -19,13 +19,13 @@ html
                         span.icon-bar
                         span.icon-bar
                         span.icon-bar
-                    a.navbar-brand(href="") WalkChat
+                    a#hint.navbar-brand(href="") WalkChat
                 // Collect the nav links, forms, and other content for toggling
                 #bs-example-navbar-collapse-1.collapse.navbar-collapse
                     ul.nav.navbar-nav.navbar-right
                         li.dropdown
                             a.dropdown-toggle(href="/admin", role='button') Discover
-                            a#username.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                            a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
                                 | Logout
         br
         br
@@ -38,11 +38,10 @@ html
                 button.btn.btn-info.dropdown-toggle.btn-add(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                     span.glyphicon.glyphicon-plus(aria-hidden='true')
                 ul.dropdown-menu#user-list
-
-            // /btn-group
-            input.form-control(type='text', aria-label='...')
+            input#my-word.form-control(type='text', aria-label='...')
             span.input-group-btn
-                button.btn.btn-success(type='button') Go!
+                button#btn-send.btn.btn-success(type='button')
+                    span.glyphicon.glyphicon-send(aria-hidden='true')
     script(src="/socket.io/socket.io.js")
     script(src='/javascripts/jquery.min.js')
     script(src="/javascripts/index.js")

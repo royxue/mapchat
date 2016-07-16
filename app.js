@@ -124,8 +124,8 @@ io.on('connection', function( socket ) {
   });
 
   socket.on("init", function(data) {
-    console.log("init cache socket" + this.socket);
-    socketCache[data.username] = this.socket;
+    console.log("init cache socket" + socket);
+    socketCache[data.username] = socket;
   });
 
 
@@ -174,6 +174,7 @@ io.on('connection', function( socket ) {
 
     var user1 = data.sender;
     var user2 = data.receiver;
+
     socketCache[user2].emit("sendmsg", {msg:data.msg, sender:user1});
   });
 

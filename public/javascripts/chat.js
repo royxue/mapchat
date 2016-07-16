@@ -5,6 +5,8 @@
 var socket = io();
 
 (function () {
+    var talkToUserName;
+    
     var utils = {
         getTemplate: function (users) {
             var i = 0,
@@ -16,14 +18,15 @@ var socket = io();
         },
         getUserName: function () {
             return $('#username')[0].innerHTML;
-        }
+        },
     };
 
     function socketBinding() {
         socket.on("users", function (data) {
             $("#user-list").html(utils.getTemplate(data.users));
-            $("#user-list a").click(function (event) {
-                console.log($(this).text());
+            $("#user-list a").click(function () {
+                talkToUserName = $(this).text();
+                $('#hint').text(talkToUserName);
             });
         });
     }
@@ -32,6 +35,16 @@ var socket = io();
         $(".btn-add").click(function () {
             socket.emit("activeUser", {
                 username: "wcyz666"
+            });
+        });
+        
+        $("#btn-send").click(function () {
+            var word = $("#my-word").val();
+            $("#my-word").val("");
+            socket.emit("sendmsgfor2people", {
+                sender: utils.getUserName(),
+                receiver: talkToUserName,
+                msg: word
             });
         });
     }
