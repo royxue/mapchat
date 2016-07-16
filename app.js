@@ -121,8 +121,8 @@ currentPosts = {
       }
     }, {
       sender: "ChengGod",
-      txtmsg: "Got $10,000 dollars for LinkedIn Intern Hachathon!",
-      fileurl:"/image/bridge.jpeg",
+      txtmsg: "Got $10,000 dollars for LinkedIn Intern Hackathon!",
+      fileurl:"/image/hackday.jpg",
       geolocation : {
         "longitude" : 37.786543,
         "latitude" : -122.398097
@@ -307,7 +307,6 @@ io.on('connection', function( socket ) {
   socket.on("allPosts", function() {
     socket.emit("allPosts", currentPosts.posts);
   });
-
 });
 
 
