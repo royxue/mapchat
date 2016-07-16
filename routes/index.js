@@ -29,10 +29,8 @@ router.post('/login', function(req, res) {
   geolocation.longitude = longitude;
   user.geolocation = geolocation;
   currentUser[req.params.username] = user;
-  console.log(req.params.username + "log in at" + data.geolocation);
-  res.render('chat.js', {isLogin: true, username: req.params.username});
+  res.render('chat', {isLogin: true, username:req.params.username});
 });
-
 
 /**
  * request parameters:
@@ -43,6 +41,7 @@ router.post('/login', function(req, res) {
    * }
  */
 router.post('/signup', function(req, res) {
+  var user = {};
   var longitude = req.params.longitude;
   var latitude = req.params.latitude;
   var geolocation = {};
@@ -52,10 +51,7 @@ router.post('/signup', function(req, res) {
   user.password = req.params.password;
   user.geolocation = geolocation;
   currentUser[req.params.username] = user;
-  console.log(req.params.username + "signed up at" + data.geolocation);
-
-  res.render('chat.js', {isLogin: true, username: req.params.username});
+  res.render('chat', {isLogin: true, username:req.params.username});
 });
-
 
 module.exports = router;

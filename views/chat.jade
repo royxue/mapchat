@@ -9,6 +9,7 @@ html
         script(src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.js')
         meta(name='viewport', content='width=device-width, initial-scale=1')
     body
+        p#username #{username}
         nav.navbar.navbar-inverse.navbar-fixed-top
             .container-fluid
                 // Brand and toggle get grouped for better mobile display
@@ -36,16 +37,8 @@ html
             .input-group-btn.dropup
                 button.btn.btn-info.dropdown-toggle.btn-add(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                     span.glyphicon.glyphicon-plus(aria-hidden='true')
-                ul.dropdown-menu
-                    li
-                        a(href='#') Action
-                    li
-                        a(href='#') Another action
-                    li
-                        a(href='#') Something else here
-                    li.divider(role='separator')
-                    li
-                        a(href='#') Separated link
+                ul.dropdown-menu#user-list
+
             // /btn-group
             input.form-control(type='text', aria-label='...')
             span.input-group-btn

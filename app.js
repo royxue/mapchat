@@ -30,13 +30,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
@@ -52,7 +45,7 @@ app.use(session({
 app.use( express.static( __dirname + '/public' ) );
 
 var server_port =  3000;
-var server_ip_address = '127.0.0.1';
+var server_ip_address = '0.0.0.0';
 
 var server = app.listen( server_port, server_ip_address, function () {
   var host = server.address().address,
@@ -129,6 +122,7 @@ io.on('connection', function( socket ) {
     socket.broadcast.to(data.room).emit("exitClient", data.username);
   });
 
+
   /**
    * data format:
    * {
@@ -170,7 +164,7 @@ io.on('connection', function( socket ) {
    */
   socket.on("sendgeomsg", function(data) {
     console.log(data.username + " update geo message to: " + data.geomsg);
-    currentUsers[data.username].geolocation = data.deomsg;
+    currentUsers[data.username].geolocation = data.geomsg;
   });
 
   /**
@@ -193,7 +187,6 @@ io.on('connection', function( socket ) {
    */
   // return all active users except self
   socket.on("activeUser", function(data) {
-    console.log("get activeUser");
     var users = [];
     for (var user in currentUser) {
       if (currentUser.hasOwnProperty(user) && user !== data.username) {
@@ -201,7 +194,9 @@ io.on('connection', function( socket ) {
       }
     }
     var result = {'users' : users};
+    console.log(result);
     socket.emit('users', result);
+
   });
 });
 

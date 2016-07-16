@@ -108,3 +108,9 @@ a {
     width: 100%;
     display: none;
 }
+
+#username{
+    display: hidden;
+    width: 0;
+    height: 0;
+}

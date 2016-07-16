@@ -14,6 +14,32 @@ function addMoment(pos, desc, image){
         .addTo(map);
 }
 
+function getUsername(){
+    return $('#username')[0].innerHTML
+}
+
+function sendSocket(username, pos){
+
+}
+
+function fitIntoBounds(pos){
+    bounds = map.getBounds().toArray();
+    // [[-73.9876, 40.7661], [-73.9397, 40.8002]]
+    if (pos[0] < bounds[0][0]) {
+        bounds[0][0] = pos[0]
+    }
+    if (pos[1] < bounds[0][1]) {
+        bounds[0][1] = pos[1]
+    }
+    if (pos[0] > bounds[1][0]) {
+        bounds[1][0] = pos[0]
+    }
+    if (pos[1] > bounds[1][1]) {
+        bounds[1][1] = pos[1]
+    }
+    map.fitBounds(bounds);
+}
+
 map.on('load', function(){
     var curLoc = function(position){
         map.getSource('curUser').setData(
@@ -30,28 +56,10 @@ map.on('load', function(){
     var recenter = function(position){
         map.flyTo({
             "center": [
-                    position.coords.longitude,
-                    position.coords.latitude
+                position.coords.longitude,
+                position.coords.latitude
         ]});
-    }
-
-    function fitBounds(pos){
-        bounds = map.getBounds().toArray();
-        // [[-73.9876, 40.7661], [-73.9397, 40.8002]]
-        if (pos[0] < bounds[0][0]) {
-            bounds[0][0] = pos[0]
-        }
-        if (pos[1] < bounds[0][1]) {
-            bounds[0][1] = pos[1]
-        }
-        if (pos[0] > bounds[1][0]) {
-            bounds[1][0] = pos[0]
-        }
-        if (pos[1] > bounds[1][1]) {
-            bounds[1][1] = pos[1]
-        }
-        map.fitBounds(bounds);
-    }
+    };
 
     map.addSource('curUser', {
         "type": "geojson",
@@ -69,10 +77,22 @@ map.on('load', function(){
             "circle-radius": 13,
             "circle-color": "#149c82"
         }
-    })
+    });
 
     navigator.geolocation.getCurrentPosition(recenter);
-    window.setInterval(function(){navigator.geolocation.getCurrentPosition(curLoc);}, 1000);
+
+    var getCurLocation = function(position) {
+        $('.longitude_input').val(position.coords.longitude);
+        $('.latitude_input').val(position.coords.latitude);
+    };
+
+    navigator.geolocation.getCurrentPosition(getCurLocation);
+
+    window.setInterval(function(){
+        navigator.geolocation.getCurrentPosition(curLoc);
+    }, 1000);
+
+
 
     addMoment([-122.0738, 37.422], "Hi~", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAlJAAAAJGEwNmM5MzIzLTk0NWEtNDBjZS04ODliLTRlMWUyODQ1OWNjZA.jpg");
 
@@ -83,5 +103,5 @@ map.on('load', function(){
 
 
 map.on('dblclick', function(e){
-    addMoment(map.unproject(e.point), "Hi~", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAlJAAAAJGEwNmM5MzIzLTk0NWEtNDBjZS04ODliLTRlMWUyODQ1OWNjZA.jpg");
+    addMoment(map.unproject(e.point), "Hi~", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAlJAAAAJGEwNmM5MzIzLTk0NWEtNDBjZS04ODliLTRlMWUyODQ1OWNjZA.jpg"); 
 })
