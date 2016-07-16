@@ -33,3 +33,15 @@ a {
     border: solid 2px #149c82 !important;
     color: #149c82 !important;
 }
+
+.signin-area {
+    width: 100%;
+    display: none;
+    height: 100px;
+}
+
+.signup-area {
+    width: 100%;
+    height: 100px;
+    display: none;
+}
