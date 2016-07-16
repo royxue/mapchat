@@ -100,9 +100,14 @@ app.use(function (req, res) {
  */
 app.post('/login', function(req, res) {
   var user = {};
+  var longitude = req.params.longitude;
+  var latitude = req.params.latitude;
   user.username = req.params.username;
   user.password = req.params.password;
-  user.geolocation = req.params.geolocation;
+  geolocation = {};
+  geolocation.latitude = latitude;
+  geolocation.longitude = longitude;
+  user.geolocation = geolocation;
   currentUser[req.params.username] = user;
   console.log(req.params.username + "log in at" + data.geolocation);
   res.render('index.js', {isLogin: true});
@@ -140,9 +145,14 @@ io.on('connection', function( socket ) {
    * }
    */
   app.post('/signup', function(req, res) {
+    var longitude = req.params.longitude;
+    var latitude = req.params.latitude;
+    geolocation = {};
+    geolocation.latitude = latitude;
+    geolocation.longitude = longitude;
     user.username = req.params.username;
     user.password = req.params.password;
-    user.geolocation = req.params.geolocation;
+    user.geolocation = geolocation;
     currentUser[req.params.username] = user;
     console.log(req.params.username + "signed up at" + data.geolocation);
 
