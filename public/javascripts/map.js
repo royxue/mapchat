@@ -19,7 +19,13 @@ function getUsername(){
 }
 
 function sendSocket(username, pos){
-
+    var sendData = {};
+    sendData.username = username;
+    sendData.geomsg = {
+        longitude: pos[0],
+        latitude: pos[1]
+    };
+    socket.emit("sendgeomsg", sendData);
 }
 
 function fitIntoBounds(pos){
