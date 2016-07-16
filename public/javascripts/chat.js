@@ -39,6 +39,8 @@
         $("#btn-send").click(function () {
             var word = $("#my-word").val();
             $("#my-word").val("");
+            var msg = "<div class='chatmsg'>" + word +"</div>"
+            $("#chatbox")[0].innerHTML += msg;
             socket.emit("sendmsgfor2people", {
                 sender: utils.getUserName(),
                 receiver: talkToUserName,
