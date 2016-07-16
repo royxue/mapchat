@@ -196,5 +196,7 @@ a {
 }
 
 .unread {
-    margin-top: 20px;
+    position: relative;
+    top: 20px;
+    left: 10px;
 }
