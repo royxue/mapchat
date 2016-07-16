@@ -104,7 +104,7 @@ currentPosts = {
   posts : [
     {
       sender: "Yuqi",
-      txtmsg: "Oh here is a Pikachu #PokemonGo"
+      txtmsg: "Oh here is a Pikachu #PokemonGo",
       fileurl: "/image/pikachu.png",
       geolocation : {
         "longitude" : 37.462743,
