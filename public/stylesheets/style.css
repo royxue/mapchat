@@ -192,3 +192,7 @@ a {
     margin-left: 10px;
     max-width: 60%;
 }
+
+.unread {
+    margin-top: 20px;
+}

@@ -5,12 +5,12 @@
 (function () {
     var talkToObj = {},
         talkToUserName,
-        curToken;
+        curToken,
+        waitingRoom = {},
+        isBadgeAppearing = false;
 
     var lastTime = new Date(),
-        width = $("#chatbox").width() * 0.3,
-        waitingRooms = {
-        };
+        width = $("#chatbox").width() * 0.3;
 
     var utils = {
         getRandomNumber: function () {
@@ -43,18 +43,32 @@
     function socketBinding() {
         socket.on("users", function (data) {
             $("#user-list").html(utils.getTemplate(data.users));
-            $("#user-list a").click(function () {
-                talkToUserName = $(this).text();
-                $('#hint').text("Talking to " + talkToUserName);
-                if (!(talkToUserName in waitingRooms)) {
-                    curToken = utils.getRandomNumber();
-                    talkToObj[talkToUserName] = curToken;
-                    socket.emit("initTalk", {
-                        token: curToken,
-                        sender: utils.getUserName(),
-                        receiver: talkToUserName
-                    });
-                } 
+            $("#user-list a").each(function (element) {
+                if ($(this).text() in waitingRoom) {
+                    $(this).append('<span class="badge pull-right"> '
+                        + waitingRoom[$(this).text()].reminder + '</span>');
+                }
+                $(this).click(function () {
+                    $(this).children("span").remove();
+                    talkToUserName = $(this).text();
+                    $('#hint').text("Talking to " + talkToUserName);
+                    if (!(talkToUserName in waitingRoom)) {
+                        curToken = utils.getRandomNumber();
+                        talkToObj[talkToUserName] = curToken;
+                        socket.emit("initTalk", {
+                            token: curToken,
+                            sender: utils.getUserName(),
+                            receiver: talkToUserName
+                        });
+                    } else {
+                        socket.emit("enterRoom", {
+                            token: waitingRoom[$(this).text()].token,
+                            receiver: utils.getUserName()
+                        });
+                        curToken = waitingRoom[$(this).text()].token;
+                        delete waitingRoom[$(this).text()];
+                    }
+                });
             });
         });
         
@@ -65,6 +79,13 @@
                     scrollTop:$("#chatbox")[0].scrollHeight
                 }, 500);
         });
+
+        socket.on("remindMsg", function (data) {
+            waitingRoom[data.sender] = {
+                token: data.token,
+                reminder: data.stashCount
+            }
+        })
     }
 
     function DOMBinding() {
@@ -102,6 +123,20 @@
         socket.emit("init", {
             username: utils.getUserName()
         });
+
+        setInterval(function () {
+            var total = 0;
+            for (var key in waitingRoom) {
+                if (waitingRoom.hasOwnProperty(key)) {
+                    total += waitingRoom[key].reminder;
+                }
+            }
+            $(".navbar-header").children(".badge").remove();
+            if (total > 0) {
+                $(".navbar-header").prepend('<span class="badge unread"> '
+                    + total + '</span>');
+            }
+        }, 1000)
     }
 
     return {

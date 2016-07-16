@@ -108,7 +108,6 @@ io.on('connection', function( socket ) {
    * room : {users:[]}
    */
   socket.on("join", function(data) {
-    console.log(data);
     socket.join(data.room);
     var users = [];
     var arrayLength = data.room.users.length;
@@ -125,7 +124,6 @@ io.on('connection', function( socket ) {
   });
 
   socket.on("init", function(data) {
-    console.log("init cache socket" + socket);
     socketCache[data.username] = socket;
   });
 
@@ -171,21 +169,31 @@ io.on('connection', function( socket ) {
    * }
    */
   socket.on("sendmsgfor2people", function(data) {
-    console.log(data.sender + " send message: " + data.msg);
 
     var user1 = data.sender;
     var user2 = data.receiver;
     console.log(socketCache);
-    socketCache[user2].emit("sendmsg", {msg:data.msg, sender:user1});
-    /*if (curChatting[data.token][user2]) {
+    if (curChatting[data.token][user2]) {
       socketCache[user2].emit("sendmsg", {msg:data.msg, sender:user1});
     } else {
       curChatting[data.token].stash.push(user2);
-      socketCache[user2].emit("remindMsg",);
-    }*/
+      socketCache[user2].emit("remindMsg", {
+        token: data.token,
+        sender: user1,
+        stashCount: curChatting[data.token].stash.length
+      });
+    }
   });
 
-
+  socket.on("enterRoom", function (data) {
+    curChatting[data.token][data.receiver] = true;
+    var arr = curChatting[data.token].stash;
+    for (var i = 0; i < arr.length; i++) {
+      socketCache[data.receiver].emit("sendmsg", {msg:arr[i], sender:""});
+    }
+    console.log("arr" + arr.toString());
+    console.log(data);
+  });
   /**
    * data format:
    * {
@@ -210,8 +218,6 @@ io.on('connection', function( socket ) {
    * }
    */
   socket.on("getgeomsg", function(data) {
-    console.log("[abde] username: " + data.username);
-    console.log(currentUser);
 
     //console.log(data.username + "'s location is: " + currentUser[data.username].geolocation);
     socket.emit("getgeomsg", currentUser[data.username].geolocation);
@@ -219,7 +225,7 @@ io.on('connection', function( socket ) {
 
   socket.on("initTalk", function (data) {
     curChatting[data.token] = {
-      stashes : []
+      stash : []
     };
     curChatting[data.token][data.sender] = true;
     curChatting[data.token][data.receiver] = false;
@@ -242,7 +248,6 @@ io.on('connection', function( socket ) {
       }
     }
     var result = {'users' : users};
-    console.log(socketCache);
     socket.emit('users', result);
   });
 });
