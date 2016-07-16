@@ -78,11 +78,17 @@ currentRooms = {};
  *    [username]: user {
  *      username:
  *      password:
- *      geolocation:
+ *      geolocation: {
+ *        latitude:
+ *        longitude:
+ *      }
  *    }
  * }
  */
-currentUser = {};
+currentUser = {
+  "ChengWang": {username: "ChengWang", password: "111", geolocation: {latitude: -74, latitude: 41}},
+  "RoyXue": {username: "RoyXue", password: "222", geolocation: {latitude: -74, latitude: 41}}
+};
 
 
 app.use(function (req, res) {
