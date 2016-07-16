@@ -65,9 +65,6 @@ currentRooms = {};
 currentPrivateRoom = {};
 currentUser = {}
 
-
-
-
 app.use(function (req, res) {
   res.status(404);
   res.send("Not Found");
