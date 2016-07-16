@@ -160,13 +160,12 @@ map.on('load', function(){
     });
 
     $("#discover").click(function(){
-        console.log("send all post");
         socket.emit("allPosts");
     });
 
     socket.on("allPosts", function(data){
         data.forEach(function(post){
-            console.log(post);
+            fitIntoBounds([post.geolocation.latitude, post.geolocation.longitude]);
             addMoment([post.geolocation.latitude, post.geolocation.longitude], post.txtmsg, post.fileurl);
         });
     });

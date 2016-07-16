@@ -82,9 +82,7 @@ currentUser = {};
 
 socketCache = {};
 
-curChatting = {
-  
-};
+curChatting = {};
 
 /**
  * data format:
@@ -126,14 +124,6 @@ currentPosts = {
       geolocation : {
         "longitude" : 37.786543,
         "latitude" : -122.398097
-      }
-    }, {
-      sender: "Shuqin",
-      txtmsg: "Had a great day at the city ! :)",
-      filrurl: "/image/bridge.jpeg",
-      geolocation : {
-        "longitude" : 37.820005,
-        "latitude" : -122.477923
       }
     }
   ]
