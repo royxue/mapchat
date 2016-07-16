@@ -105,7 +105,7 @@ app.post('/login', function(req, res) {
   user.geolocation = req.params.geolocation;
   currentUser[req.params.username] = user;
   console.log(req.params.username + "log in at" + data.geolocation);
-  res.render('index.js', {isLogin: true});
+  res.render('chat.js', {isLogin: true});
 });
 
 io.on('connection', function( socket ) {
@@ -146,7 +146,7 @@ io.on('connection', function( socket ) {
     currentUser[req.params.username] = user;
     console.log(req.params.username + "signed up at" + data.geolocation);
 
-    res.render('index.js', {isLogin: true});
+    res.render('chat.js', {isLogin: true});
   });
 
   /**
