@@ -20,16 +20,16 @@ router.get("/chat", function (req, res) {
  */
 router.post('/login', function(req, res) {
   var user = {};
-  var longitude = req.params.longitude;
-  var latitude = req.params.latitude;
-  user.username = req.params.username;
-  user.password = req.params.password;
+  var longitude = req.body.longitude;
+  var latitude = req.body.latitude;
+  user.username = req.body.username;
+  user.password = req.body.password;
   var geolocation = {};
   geolocation.latitude = latitude;
   geolocation.longitude = longitude;
   user.geolocation = geolocation;
-  currentUser[req.params.username] = user;
-  res.render('chat', {isLogin: true, username:req.params.username});
+  currentUser[req.body.username] = user;
+  res.render('chat', {isLogin: true, username:req.body.username});
 });
 
 /**
@@ -42,16 +42,17 @@ router.post('/login', function(req, res) {
  */
 router.post('/signup', function(req, res) {
   var user = {};
-  var longitude = req.params.longitude;
-  var latitude = req.params.latitude;
+  var longitude = req.body.longitude;
+  var latitude = req.body.latitude;
   var geolocation = {};
   geolocation.latitude = latitude;
   geolocation.longitude = longitude;
-  user.username = req.params.username;
-  user.password = req.params.password;
+  user.username = req.body.username;
+  user.password = req.body.password;
   user.geolocation = geolocation;
-  currentUser[req.params.username] = user;
-  res.render('chat', {isLogin: true, username:req.params.username});
+  currentUser[req.body.username] = user;
+  console.log("username: " + currentUser[req.body.username].username);
+  res.render('chat', {isLogin: true, username:req.body.username});
 });
 
 module.exports = router;
