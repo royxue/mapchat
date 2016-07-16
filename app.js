@@ -104,7 +104,7 @@ app.post('/login', function(req, res) {
   var latitude = req.params.latitude;
   user.username = req.params.username;
   user.password = req.params.password;
-  geolocation = {};
+  var geolocation = {};
   geolocation.latitude = latitude;
   geolocation.longitude = longitude;
   user.geolocation = geolocation;
@@ -147,7 +147,7 @@ io.on('connection', function( socket ) {
   app.post('/signup', function(req, res) {
     var longitude = req.params.longitude;
     var latitude = req.params.latitude;
-    geolocation = {};
+    var geolocation = {};
     geolocation.latitude = latitude;
     geolocation.longitude = longitude;
     user.username = req.params.username;
