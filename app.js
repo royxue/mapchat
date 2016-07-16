@@ -86,6 +86,20 @@ curChatting = {
   
 };
 
+/**
+ * data format:
+ * {
+ *    posts:[ post {
+ *      sender:
+ *      txtmsg:
+ *      fileurl:
+ *    }]
+ * }
+ */
+currentPosts = {
+
+};
+
 app.use(function (req, res) {
   res.status(404);
   res.send("Not Found");
@@ -245,6 +259,16 @@ io.on('connection', function( socket ) {
     console.log(socketCache);
     socket.emit('users', result);
   });
+
+  socket.on("post", function(data) {
+    socket.broadcast.emit("post", data);
+    currentPosts.posts.push(data);
+  });
+
+  socket.on("allPosts", function() {
+    socket.emit("allPosts", currentPosts.posts);
+  });
+
 });
 
 
