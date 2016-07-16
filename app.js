@@ -94,8 +94,8 @@ curChatting = {
  *      txtmsg:
  *      fileurl:
  *      geolocation: {
- *        latitude:
  *        longitude:
+ *        latitude:
  *      }
  *    }]
  * }
