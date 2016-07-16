@@ -62,6 +62,8 @@ function fitIntoBounds(pos){
 }
 
 map.on('load', function(){
+    var pops = {}
+
     var curLoc = function(position){
         var username = getUsername()
         var pos = [position.coords.longitude, position.coords.latitude]
@@ -161,6 +163,32 @@ map.on('load', function(){
 
     $("#discover").click(function(){
         socket.emit("allPosts");
+    });
+
+    $("#btn-send").mousedown(function(){
+        if (pops.cur != undefined) {
+            pops.cur.remove()
+        }
+
+        var word = $("#my-word").val();
+        // console.log(map.getSource('curUser'));
+        pos = map.getSource('curUser')._data.coordinates
+        var pop = new mapboxgl.Popup({closeOnClick:false})
+            .setLngLat(pos)
+            .setHTML("<p class='curU' style='margin: 0'>"+word+"</p>")
+            .addTo(map);
+        pops.cur = pop;
+    });
+
+    socket.on("display", function(data){
+        if (pops.to != undefined) {
+            pops.to.remove()
+        }
+        var pop = new mapboxgl.Popup({closeOnClick:false})
+            .setLngLat([data.geolocation.longitude, data.geolocation.latitude])
+            .setHTML("<p class='toU' style='margin: 0'>"+data.msg+"</p>")
+            .addTo(map);
+        pops.to = pop;
     });
 
     socket.on("allPosts", function(data){
