@@ -33,3 +33,33 @@ a {
     border: solid 2px #149c82 !important;
     color: #149c82 !important;
 }
+
+.sign_in_form {
+    width: 30%;
+    margin-left: 35%;
+    margin-top: 15%;
+}
+
+.sign_in_btn {
+    width: 100%;
+}
+
+.register_form {
+    width: 30%;
+    margin-left: 35%;
+    margin-top: 15%;
+}
+
+.register_btn {
+    width: 100%;
+}
+
+.username_input {
+    margin-right: 4%;
+    margin-left: 4%;
+}
+
+.password_input {
+    margin-right: 4%;
+    margin-left: 4%;
+}

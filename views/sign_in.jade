@@ -1,0 +1,14 @@
+doctype html
+html(lang='en')
+    head
+        title Sign In
+        link(rel='stylesheet', type='text/css', href='../public/stylesheets/bootstrap.min.css')
+        link(rel='stylesheet', type='text/css', href='../public/stylesheets/style.css')
+    body
+        .sign_in_form
+            form
+                fieldset.form-group
+                    input.form-control.username_input(type='email', placeholder='Username')
+                fieldset.form-group
+                    input.form-control.password_input(type='password', placeholder='Password')
+                button.sign_in_btn.btn.btn-success.btn-md(type='button') Confirm
