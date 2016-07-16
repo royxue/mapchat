@@ -30,6 +30,8 @@ a {
 
 .moment p{
     margin: 0;
+    width: 80px;
+    line-height: 1;
 }
 
 .moment img{
@@ -191,4 +193,8 @@ a {
     float:left;
     margin-left: 10px;
     max-width: 60%;
+}
+
+.unread {
+    margin-top: 20px;
 }
