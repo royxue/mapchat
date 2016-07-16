@@ -61,9 +61,29 @@ var server = app.listen( server_port, server_ip_address, function () {
 
 var io = socketIO(server);
 
+/**
+ * data format:
+ * {
+ *    rooms: [
+ *       room {
+ *          usernames:[username1, username2..]
+ *       }
+ *    ]
+ * }
+ */
 currentRooms = {};
-currentPrivateRoom = {};
-currentUser = {}
+/**
+ * data format:
+ * {
+ *    [username]: user {
+ *      username:
+ *      password:
+ *      geolocation:
+ *    }
+ * }
+ */
+currentUser = {};
+
 
 app.use(function (req, res) {
   res.status(404);
@@ -80,6 +100,67 @@ io.on('connection', function( socket ) {
 
   socket.on("exit", function(data) {
     socket.broadcast.to(data.room).emit("exitClient", data.username);
+  });
+
+  /**
+   * data format:
+   * {
+   *    username: "xxx"
+   *    password:
+   *    geolocation:
+   * }
+   */
+  socket.on("signup", function(data) {
+    user.username = data.username;
+    user.geolocation = data.geolocation;
+    currentUser[data.username] = user;
+    concole.log(data.username + " signed up at" + data.geolocation);
+    socket.broadcast.emit("signup", "successful");
+  });
+
+  /**
+   * data format:
+   * {
+   *
+   * }
+   */
+  socket.on("login", function(data) {
+
+  });
+
+  /**
+   * data format:
+   * {
+   *    username:
+   *    room: {
+   *      usernames: [username1, username2...]
+   *    }
+   *    msg:
+   * }
+   */
+  socket.on("sendmsg", function(data) {
+    concole.log(data.username + " send message: " + data.msg);
+    socket.broadcast.to(data.room).emit("sendmsg", data);
+  });
+
+  /**
+   * data format:
+   * {
+   *    username:
+   *    geomsg:
+   * }
+   */
+  socket.on("sendgeomsg", function(data) {
+    concole.log(data.username + " update geo message to: " + data.geomsg);
+    currentUsers[data.username].geolocation = data.deomsg;
+  });
+
+  /**
+   * data format:
+   *
+   */
+  socket.on("getgeomsg", function(data) {
+    console.log(data.username + "'s location is: " + )
   });
 
 });
