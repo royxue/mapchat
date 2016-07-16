@@ -82,6 +82,10 @@ currentUser = {};
 
 socketCache = {};
 
+curChatting = {
+  
+};
+
 app.use(function (req, res) {
   res.status(404);
   res.send("Not Found");
@@ -171,8 +175,14 @@ io.on('connection', function( socket ) {
 
     var user1 = data.sender;
     var user2 = data.receiver;
-
+    console.log(socketCache);
     socketCache[user2].emit("sendmsg", {msg:data.msg, sender:user1});
+    /*if (curChatting[data.token][user2]) {
+      socketCache[user2].emit("sendmsg", {msg:data.msg, sender:user1});
+    } else {
+      curChatting[data.token].stash.push(user2);
+      socketCache[user2].emit("remindMsg",);
+    }*/
   });
 
 
@@ -200,11 +210,20 @@ io.on('connection', function( socket ) {
    * }
    */
   socket.on("getgeomsg", function(data) {
-    //console.log("[abde] username: " + data.username);
+    console.log("[abde] username: " + data.username);
+    console.log(currentUser);
+
     //console.log(data.username + "'s location is: " + currentUser[data.username].geolocation);
     socket.emit("getgeomsg", currentUser[data.username].geolocation);
   });
 
+  socket.on("initTalk", function (data) {
+    curChatting[data.token] = {
+      stashes : []
+    };
+    curChatting[data.token][data.sender] = true;
+    curChatting[data.token][data.receiver] = false;
+  });
 
   /**
    * data format :
@@ -223,7 +242,7 @@ io.on('connection', function( socket ) {
       }
     }
     var result = {'users' : users};
-    // console.log(result);
+    console.log(socketCache);
     socket.emit('users', result);
   });
 });

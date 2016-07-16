@@ -3,12 +3,19 @@
  */
 
 (function () {
-    var talkToUserName;
+    var talkToObj = {},
+        talkToUserName,
+        curToken;
 
     var lastTime = new Date(),
-        width = $("#chatbox").width() * 0.3;
+        width = $("#chatbox").width() * 0.3,
+        waitingRooms = {
+        };
 
     var utils = {
+        getRandomNumber: function () {
+            return Math.floor(Math.random() * 10000);    
+        },
         getTemplate: function (users) {
             var i = 0,
                 res = "";
@@ -30,7 +37,7 @@
         getOtherWordsTemplate : function (words){
             return '</div><div class="media-body"><p class="words bubble-other">' + words.replace(/\n/g, "<br>") +
                 '</p></div><div class="clearfix"></div>';
-        },
+        }
     };
 
     function socketBinding() {
@@ -38,7 +45,16 @@
             $("#user-list").html(utils.getTemplate(data.users));
             $("#user-list a").click(function () {
                 talkToUserName = $(this).text();
-                $('#hint').text(talkToUserName);
+                $('#hint').text("Talking to " + talkToUserName);
+                if (!(talkToUserName in waitingRooms)) {
+                    curToken = utils.getRandomNumber();
+                    talkToObj[talkToUserName] = curToken;
+                    socket.emit("initTalk", {
+                        token: curToken,
+                        sender: utils.getUserName(),
+                        receiver: talkToUserName
+                    });
+                } 
             });
         });
         
@@ -67,6 +83,7 @@
             $("#my-word").val("");
             
             socket.emit("sendmsgfor2people", {
+                token: curToken,
                 sender: utils.getUserName(),
                 receiver: talkToUserName,
                 msg: word

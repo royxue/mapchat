@@ -27,7 +27,7 @@ function getUsername(){
 
 function getToUsername(){
     if ($('#hint').length > 0){
-        return $('#hint')[0].innerHTML        
+        return $('#hint').text().split(" ")[2]
     } else {
         return undefined
     }
