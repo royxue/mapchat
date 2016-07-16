@@ -90,6 +90,14 @@ app.use(function (req, res) {
   res.send("Not Found");
 });
 
+/**
+ * request parameters:
+ * {
+   *    username: "xxx"
+   *    password:
+   *    geolocation:
+   * }
+ */
 
 io.on('connection', function( socket ) {
   console.log("connected");
@@ -123,9 +131,14 @@ io.on('connection', function( socket ) {
    * }
    */
   app.post('/signup', function(req, res) {
+    var longitude = req.params.longitude;
+    var latitude = req.params.latitude;
+    var geolocation = {};
+    geolocation.latitude = latitude;
+    geolocation.longitude = longitude;
     user.username = req.params.username;
     user.password = req.params.password;
-    user.geolocation = req.params.geolocation;
+    user.geolocation = geolocation;
     currentUser[req.params.username] = user;
     console.log(req.params.username + "signed up at" + data.geolocation);
 

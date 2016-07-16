@@ -20,12 +20,17 @@ router.get("/chat", function (req, res) {
  */
 router.post('/login', function(req, res) {
   var user = {};
+  var longitude = req.params.longitude;
+  var latitude = req.params.latitude;
   user.username = req.params.username;
   user.password = req.params.password;
-  user.geolocation = req.params.geolocation;
+  var geolocation = {};
+  geolocation.latitude = latitude;
+  geolocation.longitude = longitude;
+  user.geolocation = geolocation;
   currentUser[req.params.username] = user;
   console.log(req.params.username + "log in at" + data.geolocation);
-  res.render('chat');
+  res.render('chat.js', {isLogin: true});
 });
 
 module.exports = router;
