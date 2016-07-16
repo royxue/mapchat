@@ -164,6 +164,7 @@ map.on('load', function(){
     });
 
     socket.on("allPosts", function(data){
+        map.removeLayer('toUser');
         data.forEach(function(post){
             fitIntoBounds([post.geolocation.latitude, post.geolocation.longitude]);
             addMoment([post.geolocation.latitude, post.geolocation.longitude], post.txtmsg, post.fileurl);
