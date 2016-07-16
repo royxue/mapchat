@@ -79,8 +79,6 @@ currentRooms = {};
  * }
  */
 currentUser = {
-  "ChengWang": {username: "ChengWang", password: "111", geolocation: {latitude: -74, latitude: 41}},
-  "RoyXue": {username: "RoyXue", password: "222", geolocation: {latitude: -74, latitude: 41}}
 };
 
 socketCache = {};
@@ -217,6 +215,8 @@ io.on('connection', function( socket ) {
   // return all active users except self
   socket.on("activeUser", function(data) {
     var users = [];
+    console.log(currentUser);
+    console.log(data);
     for (var user in currentUser) {
       if (currentUser.hasOwnProperty(user) && user !== data.username) {
         users.push(user);

@@ -34,7 +34,7 @@ var socket = io();
     function DOMBinding() {
         $(".btn-add").click(function () {
             socket.emit("activeUser", {
-                username: "wcyz666"
+                username: utils.getUserName()
             });
         });
         
