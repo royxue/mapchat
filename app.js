@@ -200,6 +200,7 @@ io.on('connection', function( socket ) {
    * }
    */
   socket.on("getgeomsg", function(data) {
+    console.log("[abde] username: " + data.username);
     console.log(data.username + "'s location is: " + currentUser[data.username].geolocation);
     socket.emit("getgeomsg", currentUser[data.username].geolocation);
   });

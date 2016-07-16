@@ -52,6 +52,7 @@ router.post('/signup', function(req, res) {
   user.geolocation = geolocation;
   currentUser[req.body.username] = user;
   console.log("username: " + currentUser[req.body.username].username);
+    console.log("[signup] location: longtitude: " + req.body.longitude + "; latitude: " + req.body.latitude);
   res.render('chat', {isLogin: true, username:req.body.username});
 });
 

@@ -120,7 +120,7 @@ map.on('load', function(){
 
     window.setInterval(function(){
         var toUser = getToUsername()
-        if (toUser != undefined) {
+        if (toUser != undefined && toUser != "WalkChat") {
             socket.emit('getgeomsg', {username: toUser});          
         }
     });
