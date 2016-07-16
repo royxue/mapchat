@@ -30,6 +30,8 @@ a {
 
 .moment p{
     margin: 0;
+    width: 80px;
+    line-height: 1;
 }
 
 .moment img{

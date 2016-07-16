@@ -131,7 +131,6 @@ map.on('load', function(){
         navigator.geolocation.getCurrentPosition(recenter);
     });
 
-
     map.addSource('toUser', {
         "type": "geojson",
         "data": {
@@ -158,6 +157,18 @@ map.on('load', function(){
                 "coordinates": [parseFloat(data.longitude), parseFloat(data.latitude)]
             }
         );
+    });
+
+    $("#discover").click(function(){
+        console.log("send all post");
+        socket.emit("allPosts");
+    });
+
+    socket.on("allPosts", function(data){
+        data.forEach(function(post){
+            console.log(post);
+            addMoment([post.geolocation.latitude, post.geolocation.longitude], post.txtmsg, post.fileurl);
+        });
     });
 });
 
