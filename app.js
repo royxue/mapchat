@@ -122,28 +122,7 @@ io.on('connection', function( socket ) {
     socket.broadcast.to(data.room).emit("exitClient", data.username);
   });
 
-  /**
-   * request parameters:
-   * {
-   *    username: "xxx"
-   *    password:
-   *    geolocation:
-   * }
-   */
-  app.post('/signup', function(req, res) {
-    var longitude = req.params.longitude;
-    var latitude = req.params.latitude;
-    var geolocation = {};
-    geolocation.latitude = latitude;
-    geolocation.longitude = longitude;
-    user.username = req.params.username;
-    user.password = req.params.password;
-    user.geolocation = geolocation;
-    currentUser[req.params.username] = user;
-    console.log(req.params.username + "signed up at" + data.geolocation);
 
-    res.render('chat.js', {isLogin: true});
-  });
 
   /**
    * data format:
