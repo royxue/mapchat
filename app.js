@@ -92,10 +92,16 @@ app.use(function (req, res) {
 
 io.on('connection', function( socket ) {
   console.log("connected");
+
   socket.on("join", function(data) {
     console.log(data);
     socket.join(data.room);
-    socket.broadcast.to(data.room).emit("newClient", data.username);
+    var users = []
+    for (var userInRoom in data.room.users) {
+      users.push(currentUser[userInRoom]);
+    }
+    var result = {'usersLocation' : users};
+    socket.broadcast.to(data.room).emit("usersLocation", result);
   });
 
   socket.on("exit", function(data) {
@@ -114,18 +120,25 @@ io.on('connection', function( socket ) {
     user.username = data.username;
     user.geolocation = data.geolocation;
     currentUser[data.username] = user;
-    concole.log(data.username + " signed up at" + data.geolocation);
+    console.log(data.username + " signed up at" + data.geolocation);
     socket.broadcast.emit("signup", "successful");
   });
 
   /**
    * data format:
    * {
-   *
+   * username:
+   * geolocation:
+   * password:
    * }
    */
   socket.on("login", function(data) {
-
+    if ((data.username in currentUser) && (currentUser[data.username].password == data.password)) {
+      currentUser[data.username].geolocation = data.geolocation;
+      socket.emit("loginResult", "true");
+    } else {
+      socket.emit("loginResult", "false");
+    }
   });
 
   /**
@@ -139,7 +152,7 @@ io.on('connection', function( socket ) {
    * }
    */
   socket.on("sendmsg", function(data) {
-    concole.log(data.username + " send message: " + data.msg);
+    console.log(data.username + " send message: " + data.msg);
     socket.broadcast.to(data.room).emit("sendmsg", data);
   });
 
@@ -151,18 +164,33 @@ io.on('connection', function( socket ) {
    * }
    */
   socket.on("sendgeomsg", function(data) {
-    concole.log(data.username + " update geo message to: " + data.geomsg);
+    console.log(data.username + " update geo message to: " + data.geomsg);
     currentUsers[data.username].geolocation = data.deomsg;
   });
 
   /**
    * data format:
-   *
+   * {
+   *    username:
+   * }
    */
   socket.on("getgeomsg", function(data) {
-    console.log(data.username + "'s location is: ")
+    console.log(data.username + "'s location is: " + currentUsers[data.username].geolocation);
+    socket.broadcast.emit("getgeomsg", currentUsers[data.username].geolocation);
   });
 
+  // return all active users except self
+  socket.on("activeUser", function(data) {
+    console.log("get activeUser");
+    users = [];
+    for (var user in currentUser) {
+      if (user != data.username) {
+        users.push(user);
+      }
+    }
+    var result = {'users' : users};
+    socket.emit('users', result);
+  });
 });
 
 
