@@ -158,7 +158,12 @@ io.on('connection', function( socket ) {
    * data format:
    * {
    *    username:
-   *    geomsg:
+   *    geomsg: {
+   *      geolocation: {
+   *        longitutde: str
+   *        latitude: str
+   *    }
+   * }
    * }
    */
   socket.on("sendgeomsg", function(data) {
