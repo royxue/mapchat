@@ -30,13 +30,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
@@ -193,7 +186,6 @@ io.on('connection', function( socket ) {
    */
   // return all active users except self
   socket.on("activeUser", function(data) {
-    console.log("get activeUser");
     var users = [];
     for (var user in currentUser) {
       if (currentUser.hasOwnProperty(user) && user !== data.username) {
@@ -201,7 +193,9 @@ io.on('connection', function( socket ) {
       }
     }
     var result = {'users' : users};
+    console.log(result);
     socket.emit('users', result);
+
   });
 });
 
