@@ -37,6 +37,10 @@ map.on('load', function(){
             .addTo(map);
     }
 
+    function fitBounds(pos){
+        bounds = map.getBounds();
+    }
+
     map.addSource('curUser', {
         "type": "geojson",
         "data": {
