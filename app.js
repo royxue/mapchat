@@ -129,6 +129,7 @@ io.on('connection', function( socket ) {
     socket.broadcast.to(data.room).emit("exitClient", data.username);
   });
 
+
   /**
    * data format:
    * {

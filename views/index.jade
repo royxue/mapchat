@@ -38,24 +38,29 @@ html
         button#signup.btn.btn-sign.btn-info.col-xs-5 Sign Up
       .row
         .signin-area.register_form.container-fluid.signin_sink
-          form
+          form(action='/login', method='post')
             fieldset.form-group
-              input.form-control.username_input(type='email', placeholder='Username')
+              input.form-control.username_input(type='text', name='username', placeholder='Username')
             fieldset.form-group
-              input.form-control.password_input(type='password', placeholder='Password')
-            button.sign_in_btn.btn.btn-success.btn-md(type='button') Confirm
+              input.form-control.password_input(type='password', name='password', placeholder='Password')
+            fieldset.form-group(hidden='')
+              input.form-control.longitude_input(type='hidden', name='longitude')
+              input.form-control.latitude_input(type='hidden', name='latitude')
+            button.sign_in_btn.btn.btn-success.btn-md(type='submit') Confirm
         .signup-area.register_form.container-fluid.signup_sink
-          form
+          form(action='/signup', method='post')
             fieldset.form-group
-              input.form-control.username_input(type='email', placeholder='Username')
+              input.form-control.username_input(type='text', name='username', placeholder='Username')
             fieldset.form-group
-              input.form-control.password_input(type='password', placeholder='Password')
+              input.form-control.password_input(type='password', name='password', placeholder='Password')
             fieldset.form-group
               input.form-control.password_input(type='password', placeholder='Confirm Password')
-            button.register_btn.btn.btn-success.btn-md(type='button') Register
+            fieldset.form-group(hidden='')
+                input.form-control.longitude_input(type='hidden', name='longitude')
+                input.form-control.latitude_input(type='hidden', name='latitude')
+            button.register_btn.btn.btn-success.btn-md(type='submit') Register
   script(src="/socket.io/socket.io.js")
   script(src='/javascripts/jquery.min.js')
   script(src="/javascripts/index.js")
   script(src='/javascripts/bootstrap.min.js')
   script(src='/javascripts/map.js')
-

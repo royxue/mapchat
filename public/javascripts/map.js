@@ -51,7 +51,7 @@ map.on('load', function(){
                 position.coords.longitude,
                 position.coords.latitude
         ]});
-    }
+    };
 
     map.addSource('curUser', {
         "type": "geojson",
@@ -69,10 +69,22 @@ map.on('load', function(){
             "circle-radius": 13,
             "circle-color": "#149c82"
         }
-    })
+    });
 
     navigator.geolocation.getCurrentPosition(recenter);
-    window.setInterval(function(){navigator.geolocation.getCurrentPosition(curLoc);}, 1000);
+
+    var getCurLocation = function(position) {
+        $('.longitude_input').val(position.coords.longitude);
+        $('.latitude_input').val(position.coords.latitude);
+    };
+
+    navigator.geolocation.getCurrentPosition(getCurLocation);
+
+    window.setInterval(function(){
+        navigator.geolocation.getCurrentPosition(curLoc);
+    }, 1000);
+
+
 
     addMoment([-122.0738, 37.422], "Hi~", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAlJAAAAJGEwNmM5MzIzLTk0NWEtNDBjZS04ODliLTRlMWUyODQ1OWNjZA.jpg");
 
