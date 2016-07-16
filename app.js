@@ -78,8 +78,7 @@ currentRooms = {};
  *    }
  * }
  */
-currentUser = {
-};
+currentUser = {};
 
 socketCache = {};
 
@@ -191,7 +190,7 @@ io.on('connection', function( socket ) {
    */
   socket.on("sendgeomsg", function(data) {
     console.log(data.username + " update geo message to: " + data.geomsg);
-    currentUsers[data.username].geolocation = data.geomsg;
+    currentUser[data.username].geolocation = data.geomsg;
   });
 
   /**
@@ -201,8 +200,8 @@ io.on('connection', function( socket ) {
    * }
    */
   socket.on("getgeomsg", function(data) {
-    console.log(data.username + "'s location is: " + currentUsers[data.username].geolocation);
-    socket.emit("getgeomsg", currentUsers[data.username].geolocation);
+    console.log(data.username + "'s location is: " + currentUser[data.username].geolocation);
+    socket.emit("getgeomsg", currentUser[data.username].geolocation);
   });
 
 
