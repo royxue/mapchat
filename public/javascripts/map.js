@@ -6,6 +6,8 @@ var map = new mapboxgl.Map({
     zoom: 17
 });
 
+var socket = io();
+
 function addMoment(pos, desc, image){
     var content = "<div class='moment'><p>" + desc + "</p><img src='" + image +"'></img>"
     var moment = new mapboxgl.Popup({closeOnClick:false})
@@ -15,7 +17,20 @@ function addMoment(pos, desc, image){
 }
 
 function getUsername(){
-    return $('#username')[0].innerHTML
+    if ($('#username').length > 0){
+        return $('#username')[0].innerHTML
+    } else {
+        return undefined
+    }
+    
+}
+
+function getToUsername(){
+    if ($('#hint').length > 0){
+        return $('#hint')[0].innerHTML        
+    } else {
+        return undefined
+    }
 }
 
 function sendSocket(username, pos){
@@ -48,6 +63,11 @@ function fitIntoBounds(pos){
 
 map.on('load', function(){
     var curLoc = function(position){
+        var username = getUsername()
+        var pos = [position.coords.longitude, position.coords.latitude]
+        if (username != undefined) {
+            sendSocket(username, pos);
+        }
         map.getSource('curUser').setData(
             {
                 "type": "Point",
@@ -98,12 +118,45 @@ map.on('load', function(){
         navigator.geolocation.getCurrentPosition(curLoc);
     }, 1000);
 
-
+    window.setInterval(function(){
+        var toUser = getToUsername()
+        if (toUser != undefined) {
+            socket.emit('getgeomsg', {username: toUser});          
+        }
+    });
 
     addMoment([-122.0738, 37.422], "Hi~", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAlJAAAAJGEwNmM5MzIzLTk0NWEtNDBjZS04ODliLTRlMWUyODQ1OWNjZA.jpg");
 
     $('#recenter').click(function(){
         navigator.geolocation.getCurrentPosition(recenter);
+    });
+
+
+    map.addSource('toUser', {
+        "type": "geojson",
+        "data": {
+            "type": "Point",
+            "coordinates": [0, 0]
+        }
+    });
+
+    map.addLayer({
+        "id": 'toUser',
+        "type": 'circle',
+        "source": 'toUser',
+        "paint": {
+            "circle-radius": 13,
+            "circle-color": "#FF0000"
+        }
+    });
+
+    socket.on('getgeomsg', function(data){
+        map.getSource('toUser').setData(
+            {
+                "type": "Point",
+                "coordinates": data
+            }
+        );  
     });
 });
 
