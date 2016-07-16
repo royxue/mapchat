@@ -78,11 +78,17 @@ currentRooms = {};
  *    [username]: user {
  *      username:
  *      password:
- *      geolocation:
+ *      geolocation: {
+ *        latitude:
+ *        longitude:
+ *      }
  *    }
  * }
  */
-currentUser = {};
+currentUser = {
+  "ChengWang": {username: "ChengWang", password: "111", geolocation: {latitude: -74, latitude: 41}},
+  "RoyXue": {username: "RoyXue", password: "222", geolocation: {latitude: -74, latitude: 41}}
+};
 
 
 app.use(function (req, res) {
@@ -111,8 +117,9 @@ io.on('connection', function( socket ) {
     console.log(data);
     socket.join(data.room);
     var users = [];
-    for (var userInRoom in data.room.users) {
-      users.push(currentUser[userInRoom]);
+    var arrayLength = data.room.users.length;
+    for (var i = 0; i < arrayLength; i++) {
+      users.push(currentUser[data.room.users[i]]);
     }
     var result = {'usersLocation' : users};
     socket.broadcast.to(data.room).emit("usersLocation", result);
@@ -121,7 +128,6 @@ io.on('connection', function( socket ) {
   socket.on("exit", function(data) {
     socket.broadcast.to(data.room).emit("exitClient", data.username);
   });
-
 
 
   /**
