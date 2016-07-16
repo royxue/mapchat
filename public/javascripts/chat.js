@@ -5,9 +5,10 @@
 (function () {
     var socket = io();
 
-
     function socketBinding() {
-
+        socket.on("users", function (data) {
+            console.log(data);
+        });
     }
 
     function DOMBinding() {
@@ -15,7 +16,9 @@
     }
 
     function elInit() {
-        socket.emit("join", {"hello": "world"})
+        socket.emit("activeUser", {
+            username: "wcyz666"
+        });
     }
 
     return {

@@ -78,11 +78,17 @@ currentRooms = {};
  *    [username]: user {
  *      username:
  *      password:
- *      geolocation:
+ *      geolocation: {
+ *        latitude:
+ *        longitude:
+ *      }
  *    }
  * }
  */
-currentUser = {};
+currentUser = {
+  "ChengWang": {username: "ChengWang", password: "111", geolocation: {latitude: -74, latitude: 41}},
+  "RoyXue": {username: "RoyXue", password: "222", geolocation: {latitude: -74, latitude: 41}}
+};
 
 
 app.use(function (req, res) {
@@ -98,15 +104,6 @@ app.use(function (req, res) {
    *    geolocation:
    * }
  */
-app.post('/login', function(req, res) {
-  var user = {};
-  user.username = req.params.username;
-  user.password = req.params.password;
-  user.geolocation = req.params.geolocation;
-  currentUser[req.params.username] = user;
-  console.log(req.params.username + "log in at" + data.geolocation);
-  res.render('index.js', {isLogin: true});
-});
 
 io.on('connection', function( socket ) {
   console.log("connected");
@@ -119,9 +116,10 @@ io.on('connection', function( socket ) {
   socket.on("join", function(data) {
     console.log(data);
     socket.join(data.room);
-    var users = []
-    for (var userInRoom in data.room.users) {
-      users.push(currentUser[userInRoom]);
+    var users = [];
+    var arrayLength = data.room.users.length;
+    for (var i = 0; i < arrayLength; i++) {
+      users.push(currentUser[data.room.users[i]]);
     }
     var result = {'usersLocation' : users};
     socket.broadcast.to(data.room).emit("usersLocation", result);
@@ -129,24 +127,6 @@ io.on('connection', function( socket ) {
 
   socket.on("exit", function(data) {
     socket.broadcast.to(data.room).emit("exitClient", data.username);
-  });
-
-  /**
-   * request parameters:
-   * {
-   *    username: "xxx"
-   *    password:
-   *    geolocation:
-   * }
-   */
-  app.post('/', function(req, res) {
-    user.username = req.params.username;
-    user.password = req.params.password;
-    user.geolocation = req.params.geolocation;
-    currentUser[req.params.username] = user;
-    console.log(req.params.username + "signed up at" + data.geolocation);
-
-    res.render('index.js', {isLogin: true});
   });
 
   /**
@@ -214,9 +194,9 @@ io.on('connection', function( socket ) {
   // return all active users except self
   socket.on("activeUser", function(data) {
     console.log("get activeUser");
-    users = [];
+    var users = [];
     for (var user in currentUser) {
-      if (user != data.username) {
+      if (currentUser.hasOwnProperty(user) && user !== data.username) {
         users.push(user);
       }
     }
