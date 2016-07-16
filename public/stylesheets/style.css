@@ -13,3 +13,23 @@ a {
     bottom: 0;
     width: 100%;
 }
+
+.button-bottom {
+    z-index: 999;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.btn {
+    margin-right: 4%;
+    margin-left: 4%;
+}
+
+.btn-info {
+    background-color: white !important;
+    border: solid 2px #149c82 !important;
+    color: #149c82 !important;
+}
