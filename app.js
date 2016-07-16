@@ -189,7 +189,7 @@ io.on('connection', function( socket ) {
    * }
    */
   socket.on("sendgeomsg", function(data) {
-    console.log(data.username + " update geo message to: " + data.geomsg);
+    //console.log(data.username + " update geo message to: " + data.geomsg);
     currentUser[data.username].geolocation = data.geomsg;
   });
 
@@ -200,8 +200,8 @@ io.on('connection', function( socket ) {
    * }
    */
   socket.on("getgeomsg", function(data) {
-    console.log("[abde] username: " + data.username);
-    console.log(data.username + "'s location is: " + currentUser[data.username].geolocation);
+    //console.log("[abde] username: " + data.username);
+    //console.log(data.username + "'s location is: " + currentUser[data.username].geolocation);
     socket.emit("getgeomsg", currentUser[data.username].geolocation);
   });
 
@@ -215,15 +215,15 @@ io.on('connection', function( socket ) {
   // return all active users except self
   socket.on("activeUser", function(data) {
     var users = [];
-    console.log(currentUser);
-    console.log(data);
+    // console.log(currentUser);
+    // console.log(data);
     for (var user in currentUser) {
       if (currentUser.hasOwnProperty(user) && user !== data.username) {
         users.push(user);
       }
     }
     var result = {'users' : users};
-    console.log(result);
+    // console.log(result);
     socket.emit('users', result);
   });
 });
