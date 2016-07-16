@@ -47,16 +47,16 @@ function fitIntoBounds(pos){
     bounds = map.getBounds().toArray();
     // [[-73.9876, 40.7661], [-73.9397, 40.8002]]
     if (pos[0] < bounds[0][0]) {
-        bounds[0][0] = pos[0]
+        bounds[0][0] = pos[0] - 0.02
     }
     if (pos[1] < bounds[0][1]) {
-        bounds[0][1] = pos[1]
+        bounds[0][1] = pos[1] - 0.02
     }
     if (pos[0] > bounds[1][0]) {
-        bounds[1][0] = pos[0]
+        bounds[1][0] = pos[0] + 0.02
     }
     if (pos[1] > bounds[1][1]) {
-        bounds[1][1] = pos[1]
+        bounds[1][1] = pos[1] + 0.02
     }
     map.fitBounds(bounds);
 }
@@ -125,7 +125,7 @@ map.on('load', function(){
         }
     }, 1000);
 
-    addMoment([-122.0738, 37.422], "Hi~", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAlJAAAAJGEwNmM5MzIzLTk0NWEtNDBjZS04ODliLTRlMWUyODQ1OWNjZA.jpg");
+    // addMoment([-122.0738, 37.422], "Hi~", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAlJAAAAJGEwNmM5MzIzLTk0NWEtNDBjZS04ODliLTRlMWUyODQ1OWNjZA.jpg");
 
     $('#recenter').click(function(){
         navigator.geolocation.getCurrentPosition(recenter);
@@ -151,12 +151,13 @@ map.on('load', function(){
     });
 
     socket.on('getgeomsg', function(data){
+        fitIntoBounds([data.longitude + 0.05, data.latitude + 0.05]);
         map.getSource('toUser').setData(
             {
                 "type": "Point",
-                "coordinates": [data.longitude + 0.2, data.latitude + 0.2]
+                "coordinates": [data.longitude + 0.05, data.latitude + 0.05]
             }
-        );  
+        );
     });
 });
 
