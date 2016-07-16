@@ -6,10 +6,20 @@ block content
       button#signin.btn.btn-sign.btn-info.col-xs-5 Sign In
       button#signup.btn.btn-sign.btn-info.col-xs-5 Sign Up
     .row
-      .signin-area
-        p SIGN IN
-      .signup-area
-        p SIGN UP
+      .signin-area.register_form.container-fluid
+        form
+          fieldset.form-group
+            input.form-control.username_input(type='email', placeholder='Username')
+          fieldset.form-group
+            input.form-control.password_input(type='password', placeholder='Password')
+          button.sign_in_btn.btn.btn-success.btn-md(type='button') Confirm
+      .signup-area.register_form.container-fluid
+        form
+          fieldset.form-group
+            input.form-control.username_input(type='email', placeholder='Username')
+          fieldset.form-group
+            input.form-control.password_input(type='password', placeholder='Password')
+          button.register_btn.btn.btn-success.btn-md(type='button') Register
   #map
   button#recenter
     i.fa.fa-crosshairs.fa-2x(aria-hidden="true")
