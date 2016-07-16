@@ -10,11 +10,6 @@ var map = new mapboxgl.Map({
 
 map.on('load', function(){
     var curLoc = function(position){
-        map.flyTo({
-            "center": [
-                    position.coords.longitude,
-                    position.coords.latitude
-        ]});
         map.getSource('curUser').setData(
             {
                 "type": "Point",
@@ -24,6 +19,14 @@ map.on('load', function(){
                 ]
             }
         );
+    };
+
+    var recenter = function(position){
+        map.flyTo({
+            "center": [
+                    position.coords.longitude,
+                    position.coords.latitude
+        ]});
     }
 
     map.addSource('curUser', {
@@ -34,15 +37,20 @@ map.on('load', function(){
         }
     });
 
-    window.setInterval(navigator.geolocation.getCurrentPosition(curLoc), 1000);
-
     map.addLayer({
         "id": 'curUser',
         "type": 'circle',
         "source": 'curUser',
         "paint": {
-            "circle-radius": 14,
+            "circle-radius": 13,
             "circle-color": "#149c82"
         }
     })
+
+    navigator.geolocation.getCurrentPosition(recenter);
+    window.setInterval(function(){navigator.geolocation.getCurrentPosition(curLoc);}, 1000);
+
+    $('#recenter').click(function(){
+        navigator.geolocation.getCurrentPosition(recenter);
+    });
 });
