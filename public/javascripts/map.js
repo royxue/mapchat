@@ -6,7 +6,7 @@ var map = new mapboxgl.Map({
     zoom: 17
 });
 
-// var socket = io();
+var socket = io();
 
 function addMoment(pos, desc, image){
     var content = "<div class='moment'><p>" + desc + "</p><img src='" + image +"'></img>"

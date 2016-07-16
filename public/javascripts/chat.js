@@ -2,8 +2,6 @@
  * Created by ASUA on 2016/7/15.
  */
 
-var socket = io();
-
 (function () {
     var talkToUserName;
     
