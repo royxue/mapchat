@@ -116,7 +116,7 @@ io.on('connection', function( socket ) {
    *    geolocation:
    * }
    */
-  app.post('/', function(req, res) {
+  app.post('/signup', function(req, res) {
     user.username = req.params.username;
     user.password = req.params.password;
     user.geolocation = req.params.geolocation;
