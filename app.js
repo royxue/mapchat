@@ -101,7 +101,42 @@ curChatting = {
  * }
  */
 currentPosts = {
-
+  posts : [
+    {
+      sender: "Yuqi",
+      txtmsg: "Oh here is a Pikachu #PokemonGo"
+      fileurl: "/image/pikachu.png",
+      geolocation : {
+        "longitude" : 37.462743,
+        "latitude" : -122.430162
+      }
+    },
+    {
+      sender: "Mengjin",
+      txtmsg: "Come and get one Articuno!",
+      fileurl: "/image/baidulvyou-zhangjiajie.jpg",
+      geolocation : {
+        "longitude" : 37.596029,
+        "latitude" : -122.216610
+      }
+    }, {
+      sender: "ChengGod",
+      txtmsg: "Got $10,000 dollars for LinkedIn Intern Hachathon!",
+      fileurl:"/image/bridge.jpeg",
+      geolocation : {
+        "longitude" : 37.786543,
+        "latitude" : -122.398097
+      }
+    }, {
+      sender: "Shuqin",
+      txtmsg: "Had a great day at the city ! :)",
+      filrurl: "/image/bridge.jpeg",
+      geolocation : {
+        "longitude" : 37.820005,
+        "latitude" : -122.477923
+      }
+    }
+  ]
 };
 
 app.use(function (req, res) {
