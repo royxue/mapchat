@@ -140,6 +140,7 @@ io.on('connection', function( socket ) {
    * }
    */
   app.post('/signup', function(req, res) {
+    var user = {};
     user.username = req.params.username;
     user.password = req.params.password;
     user.geolocation = req.params.geolocation;
