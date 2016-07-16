@@ -99,7 +99,6 @@ app.use(function (req, res) {
  */
 
 io.on('connection', function( socket ) {
-  console.log("connected");
 
   /**
    * Data Format:

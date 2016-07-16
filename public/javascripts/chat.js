@@ -13,6 +13,9 @@ var socket = io();
                 res += '<li><a href="#">' + users[i] + '</a></li>';
             }
             return res;
+        },
+        getUserName: function () {
+            return $('#username')[0].innerHTML;
         }
     };
 
@@ -23,7 +26,6 @@ var socket = io();
                 console.log($(this).text());
             });
         });
-
     }
 
     function DOMBinding() {
@@ -35,6 +37,9 @@ var socket = io();
     }
 
     function elInit() {
+        socket.emit("init", {
+            username: utils.getUserName()
+        })
     }
 
     return {
