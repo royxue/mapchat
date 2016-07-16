@@ -83,6 +83,7 @@ currentUser = {
   "RoyXue": {username: "RoyXue", password: "222", geolocation: {latitude: -74, latitude: 41}}
 };
 
+socketCache = {};
 
 app.use(function (req, res) {
   res.status(404);
@@ -111,6 +112,7 @@ io.on('connection', function( socket ) {
     var users = [];
     var arrayLength = data.room.users.length;
     for (var i = 0; i < arrayLength; i++) {
+      socketCache[data.room.users[i]].join(data.room);
       users.push(currentUser[data.room.users[i]]);
     }
     var result = {'usersLocation' : users};
@@ -119,6 +121,11 @@ io.on('connection', function( socket ) {
 
   socket.on("exit", function(data) {
     socket.broadcast.to(data.room).emit("exitClient", data.username);
+  });
+
+  socket.on("init", function(data) {
+    console.log("init cache socket" + this.socket);
+    socketCache[data.username] = this.socket;
   });
 
 
@@ -153,6 +160,23 @@ io.on('connection', function( socket ) {
     console.log(data.username + " send message: " + data.msg);
     socket.broadcast.to(data.room).emit("sendmsg", data);
   });
+
+
+  /**
+   * data format {
+   *    sender: sender
+   *    receiver: receiver
+   *    msg:
+   * }
+   */
+  socket.on("sendmsgfor2people", function(data) {
+    console.log(data.username + " send message: " + data.msg);
+
+    var user1 = data.sender;
+    var user2 = data.receiver;
+    socketCache[user2].emit("sendmsg", {msg:data.msg, sender:user1});
+  });
+
 
   /**
    * data format:
@@ -200,7 +224,6 @@ io.on('connection', function( socket ) {
     var result = {'users' : users};
     console.log(result);
     socket.emit('users', result);
-
   });
 });
 
