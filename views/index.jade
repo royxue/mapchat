@@ -1,27 +1,62 @@
-extends layout
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', type='text/css', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.js')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
 
-block content
-  .container-fluid.button-bottom
-    .row
-      button#signin.btn.btn-sign.btn-info.col-xs-5 Sign In
-      button#signup.btn.btn-sign.btn-info.col-xs-5 Sign Up
-    .row
-      .signin-area.register_form.container-fluid.signin_sink
-        form
-          fieldset.form-group
-            input.form-control.username_input(type='email', placeholder='Username')
-          fieldset.form-group
-            input.form-control.password_input(type='password', placeholder='Password')
-          button.sign_in_btn.btn.btn-success.btn-md(type='button') Confirm
-      .signup-area.register_form.container-fluid.signup_sink
-        form
-          fieldset.form-group
-            input.form-control.username_input(type='email', placeholder='Username')
-          fieldset.form-group
-            input.form-control.password_input(type='password', placeholder='Password')
-          fieldset.form-group
-            input.form-control.password_input(type='password', placeholder='Confirm Password')
-          button.register_btn.btn.btn-success.btn-md(type='button') Register
-  #map
-  button#recenter
-    i.fa.fa-crosshairs.fa-2x(aria-hidden="true")
+  body
+    nav.navbar.navbar-inverse.navbar-fixed-top
+      .container-fluid
+        // Brand and toggle get grouped for better mobile display
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="") WalkChat
+        // Collect the nav links, forms, and other content for toggling
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav.navbar-right
+            li.dropdown
+              a.dropdown-toggle(href="/admin", role='button') Discover
+              a#username.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                | Logout
+    br
+    br
+    br
+    #map
+    button#recenter
+    .container-fluid.button-bottom
+      .row
+        button#signin.btn.btn-sign.btn-info.col-xs-5 Sign In
+        button#signup.btn.btn-sign.btn-info.col-xs-5 Sign Up
+      .row
+        .signin-area.register_form.container-fluid.signin_sink
+          form
+            fieldset.form-group
+              input.form-control.username_input(type='email', placeholder='Username')
+            fieldset.form-group
+              input.form-control.password_input(type='password', placeholder='Password')
+            button.sign_in_btn.btn.btn-success.btn-md(type='button') Confirm
+        .signup-area.register_form.container-fluid.signup_sink
+          form
+            fieldset.form-group
+              input.form-control.username_input(type='email', placeholder='Username')
+            fieldset.form-group
+              input.form-control.password_input(type='password', placeholder='Password')
+            fieldset.form-group
+              input.form-control.password_input(type='password', placeholder='Confirm Password')
+            button.register_btn.btn.btn-success.btn-md(type='button') Register
+  script(src="/socket.io/socket.io.js")
+  script(src='/javascripts/jquery.min.js')
+  script(src="/javascripts/index.js")
+  script(src='/javascripts/bootstrap.min.js')
+  script(src='/javascripts/chat.js')
+  script(src='/javascripts/map.js')
+

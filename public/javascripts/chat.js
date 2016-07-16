@@ -15,7 +15,7 @@
     }
 
     function elInit() {
-        socket.emit("join", {"hello": "world"})
+        //socket.emit("join", {"hello": "world"})
     }
 
     return {
