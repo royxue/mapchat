@@ -6,7 +6,13 @@ var map = new mapboxgl.Map({
     zoom: 17
 });
 
-
+function addMoment(pos, desc, image){
+    var content = "<div class='moment'><p>" + desc + "</p><img src='" + image +"'></img>"
+    var moment = new mapboxgl.Popup({closeOnClick:false})
+        .setLngLat(pos)
+        .setHTML(content)
+        .addTo(map);
+}
 
 map.on('load', function(){
     var curLoc = function(position){
@@ -29,12 +35,8 @@ map.on('load', function(){
         ]});
     }
 
-    function addMoment(pos, desc, image){
-        var content = "<div class='moment'><p>" + desc + "</p><img src='" + image +"'></img>"
-        var moment = new mapboxgl.Popup({closeOnClock:false})
-            .setLngLat(pos)
-            .setHTML(content)
-            .addTo(map);
+    function fitBounds(pos){
+        bounds = map.getBounds();
     }
 
     map.addSource('curUser', {
@@ -58,9 +60,14 @@ map.on('load', function(){
     navigator.geolocation.getCurrentPosition(recenter);
     window.setInterval(function(){navigator.geolocation.getCurrentPosition(curLoc);}, 1000);
 
-    addMoment([-122.0738, 37.422], "hello world", "https://lh4.googleusercontent.com/-IhVc_Wxy6dY/AAAAAAAAAAI/AAAAAAAAFUw/YGRzJd5jolg/photo.jpg");
+    addMoment([-122.0738, 37.422], "Hi~", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAlJAAAAJGEwNmM5MzIzLTk0NWEtNDBjZS04ODliLTRlMWUyODQ1OWNjZA.jpg");
 
     $('#recenter').click(function(){
         navigator.geolocation.getCurrentPosition(recenter);
     });
 });
+
+
+map.on('dblclick', function(e){
+    addMoment(map.unproject(e.point), "Hi~", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAlJAAAAJGEwNmM5MzIzLTk0NWEtNDBjZS04ODliLTRlMWUyODQ1OWNjZA.jpg");
+})

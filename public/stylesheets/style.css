@@ -16,7 +16,7 @@ a {
 
 #recenter{
     position: absolute;
-    z-index: 999;
+    z-index: 499;
     right: 20px;
     bottom: 100px;
     border-radius: 360px;
