@@ -109,27 +109,29 @@ io.on('connection', function( socket ) {
   });
 
   /**
-   * data format:
+   * request parameters:
    * {
    *    username: "xxx"
    *    password:
    *    geolocation:
    * }
    */
-  socket.on("signup", function(data) {
-    user.username = data.username;
-    user.geolocation = data.geolocation;
-    currentUser[data.username] = user;
-    console.log(data.username + " signed up at" + data.geolocation);
-    socket.broadcast.emit("signup", "successful");
+  app.post('/', function(req, res) {
+    user.username = req.params.username;
+    user.password = req.params.password;
+    user.geolocation = req.params.geolocation;
+    currentUser[req.params.username] = user;
+    console.log(req.params.username + "signed up at" + data.geolocation);
+
+    res.render('index.js', {isLogin: true});
   });
 
   /**
    * data format:
    * {
-   * username:
-   * geolocation:
-   * password:
+   *  username:
+   *  geolocation:
+   *  password:
    * }
    */
   socket.on("login", function(data) {
@@ -176,7 +178,7 @@ io.on('connection', function( socket ) {
    */
   socket.on("getgeomsg", function(data) {
     console.log(data.username + "'s location is: " + currentUsers[data.username].geolocation);
-    socket.broadcast.emit("getgeomsg", currentUsers[data.username].geolocation);
+    socket.emit("getgeomsg", currentUsers[data.username].geolocation);
   });
 
   // return all active users except self
