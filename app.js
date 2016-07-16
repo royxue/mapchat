@@ -90,23 +90,6 @@ app.use(function (req, res) {
   res.send("Not Found");
 });
 
-/**
- * request parameters:
- * {
-   *    username: "xxx"
-   *    password:
-   *    geolocation:
-   * }
- */
-app.post('/login', function(req, res) {
-  var user = {};
-  user.username = req.params.username;
-  user.password = req.params.password;
-  user.geolocation = req.params.geolocation;
-  currentUser[req.params.username] = user;
-  console.log(req.params.username + "log in at" + data.geolocation);
-  res.render('chat.js', {isLogin: true});
-});
 
 io.on('connection', function( socket ) {
   console.log("connected");
@@ -119,7 +102,7 @@ io.on('connection', function( socket ) {
   socket.on("join", function(data) {
     console.log(data);
     socket.join(data.room);
-    var users = []
+    var users = [];
     for (var userInRoom in data.room.users) {
       users.push(currentUser[userInRoom]);
     }
@@ -214,9 +197,9 @@ io.on('connection', function( socket ) {
   // return all active users except self
   socket.on("activeUser", function(data) {
     console.log("get activeUser");
-    users = [];
+    var users = [];
     for (var user in currentUser) {
-      if (user != data.username) {
+      if (currentUser.hasOwnProperty(user) && user !== data.username) {
         users.push(user);
       }
     }
