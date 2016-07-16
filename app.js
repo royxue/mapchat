@@ -160,7 +160,7 @@ io.on('connection', function( socket ) {
    *
    */
   socket.on("getgeomsg", function(data) {
-    console.log(data.username + "'s location is: " + )
+    console.log(data.username + "'s location is: ")
   });
 
 });
