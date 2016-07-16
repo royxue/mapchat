@@ -36,7 +36,21 @@ map.on('load', function(){
     }
 
     function fitBounds(pos){
-        bounds = map.getBounds();
+        bounds = map.getBounds().toArray();
+        // [[-73.9876, 40.7661], [-73.9397, 40.8002]]
+        if (pos[0] < bounds[0][0]) {
+            bounds[0][0] = pos[0]
+        }
+        if (pos[1] < bounds[0][1]) {
+            bounds[0][1] = pos[1]
+        }
+        if (pos[0] > bounds[1][0]) {
+            bounds[1][0] = pos[0]
+        }
+        if (pos[1] > bounds[1][1]) {
+            bounds[1][1] = pos[1]
+        }
+        map.fitBounds(bounds);
     }
 
     map.addSource('curUser', {
