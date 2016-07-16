@@ -151,11 +151,11 @@ map.on('load', function(){
     });
 
     socket.on('getgeomsg', function(data){
-        fitIntoBounds([data.longitude + 0.05, data.latitude + 0.05]);
+        fitIntoBounds([parseInt(data.longitude) + 0.05, parseInt(data.latitude) + 0.05]);
         map.getSource('toUser').setData(
             {
                 "type": "Point",
-                "coordinates": [data.longitude + 0.05, data.latitude + 0.05]
+                "coordinates": [parseInt(data.longitude) + 0.05, parseInt(data.latitude) + 0.05]
             }
         );
     });

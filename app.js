@@ -45,7 +45,7 @@ app.use(session({
 app.use( express.static( __dirname + '/public' ) );
 
 var server_port =  3000;
-var server_ip_address = '127.0.0.1';
+var server_ip_address = '0.0.0.0';
 
 var server = app.listen( server_port, server_ip_address, function () {
   var host = server.address().address,
@@ -84,6 +84,59 @@ socketCache = {};
 
 curChatting = {
   
+};
+
+/**
+ * data format:
+ * {
+ *    posts:[ post {
+ *      sender:
+ *      txtmsg:
+ *      fileurl:
+ *      geolocation: {
+ *        latitude:
+ *        longitude:
+ *      }
+ *    }]
+ * }
+ */
+currentPosts = {
+  posts : [
+    {
+      sender: "Yuqi",
+      txtmsg: "Oh here is a Pikachu #PokemonGo",
+      fileurl: "/image/pikachu.png",
+      geolocation : {
+        "longitude" : 37.462743,
+        "latitude" : -122.430162
+      }
+    },
+    {
+      sender: "Mengjin",
+      txtmsg: "Come and get one Articuno!",
+      fileurl: "/image/baidulvyou-zhangjiajie.jpg",
+      geolocation : {
+        "longitude" : 37.596029,
+        "latitude" : -122.216610
+      }
+    }, {
+      sender: "ChengGod",
+      txtmsg: "Got $10,000 dollars for LinkedIn Intern Hachathon!",
+      fileurl:"/image/bridge.jpeg",
+      geolocation : {
+        "longitude" : 37.786543,
+        "latitude" : -122.398097
+      }
+    }, {
+      sender: "Shuqin",
+      txtmsg: "Had a great day at the city ! :)",
+      filrurl: "/image/bridge.jpeg",
+      geolocation : {
+        "longitude" : 37.820005,
+        "latitude" : -122.477923
+      }
+    }
+  ]
 };
 
 app.use(function (req, res) {
@@ -250,6 +303,16 @@ io.on('connection', function( socket ) {
     var result = {'users' : users};
     socket.emit('users', result);
   });
+
+  socket.on("post", function(data) {
+    socket.broadcast.emit("post", data);
+    currentPosts.posts.push(data);
+  });
+
+  socket.on("allPosts", function() {
+    socket.emit("allPosts", currentPosts.posts);
+  });
+
 });
 
 
