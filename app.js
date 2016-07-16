@@ -170,7 +170,7 @@ io.on('connection', function( socket ) {
    * }
    */
   socket.on("sendmsgfor2people", function(data) {
-    console.log(data.username + " send message: " + data.msg);
+    console.log(data.sender + " send message: " + data.msg);
 
     var user1 = data.sender;
     var user2 = data.receiver;
