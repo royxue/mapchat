@@ -14,6 +14,8 @@ function addMoment(pos, desc, image){
         .addTo(map);
 }
 
+function sendSocket()
+
 function fitIntoBounds(pos){
     bounds = map.getBounds().toArray();
     // [[-73.9876, 40.7661], [-73.9397, 40.8002]]
@@ -95,6 +97,5 @@ map.on('load', function(){
 
 
 map.on('dblclick', function(e){
-    addMoment(map.unproject(e.point), "Hi~", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAlJAAAAJGEwNmM5MzIzLTk0NWEtNDBjZS04ODliLTRlMWUyODQ1OWNjZA.jpg");
-    
+    addMoment(map.unproject(e.point), "Hi~", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAlJAAAAJGEwNmM5MzIzLTk0NWEtNDBjZS04ODliLTRlMWUyODQ1OWNjZA.jpg"); 
 })
