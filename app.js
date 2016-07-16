@@ -218,6 +218,7 @@ io.on('connection', function( socket ) {
     console.log(socketCache);
     if (curChatting[data.token][user2]) {
       socketCache[user2].emit("sendmsg", {msg:data.msg, sender:user1});
+      socketCache[user2].emit("display", {msg: data.msg, geolocation: currentUser[user2].geolocation});
     } else {
       curChatting[data.token].stash.push(user2);
       socketCache[user2].emit("remindMsg", {
