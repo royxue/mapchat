@@ -24,6 +24,19 @@ a {
     background: white;
 }
 
+.moment {
+    text-align: center;
+}
+
+.moment p{
+    margin: 0;
+}
+
+.moment img{
+    height: 40px;
+    width: 40px;
+}
+
 .button-bottom {
     z-index: 999;
     position: fixed;
