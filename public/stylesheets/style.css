@@ -47,6 +47,18 @@ a {
     padding-bottom: 20px;
     height: 330px;
 }
+
+.input-bottom {
+    z-index: 999;
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    bottom: 0px;
+}
+
+.btn-add {
+    margin-right:4px !important;
+}
 .btn {
     margin-right: 4%;
     margin-left: 4%;
